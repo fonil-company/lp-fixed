@@ -1,0 +1,65 @@
+# Servidor de produção (Easypanel/Nixpacks): serve somente o build em /app/dist.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+:{$PORT:80} {
+	encode zstd gzip
+
+	# Lead → CRM Fonil. O webhook do CRM não libera CORS, então o navegador posta
+	# no mesmo domínio e o Caddy repassa. O token fica só no servidor
+	# (sobrescreva com a variável FONIL_CRM_TOKEN no Easypanel, se mudar).
+	@crmLead {
+		method POST
+		path /api/crm-lead
+	}
+	handle @crmLead {
+		rewrite * /api/webhooks/leads/{$FONIL_CRM_TOKEN:cmuyevzib001hlf3j111omsuv}
+		reverse_proxy https://crm.fonilgroup.com.br {
+			header_up Host {upstream_hostport}
+			header_up -Origin
+			header_up -Referer
+			header_up -Cookie
+		}
+	}
+
+	# Meta API de Conversões: o navegador posta os eventos aqui e o Caddy repassa à Graph API
+	# acrescentando o token. Defina META_CAPI_TOKEN no Easypanel — o token nunca vai ao navegador.
+	@metaCapi {
+		method POST
+		path /api/meta-capi
+	}
+	handle @metaCapi {
+		request_body {
+			max_size 32KB
+		}
+		rewrite * /v25.0/{$META_PIXEL_ID:4367782926817920}/events?access_token={$META_CAPI_TOKEN}
+		reverse_proxy https://graph.facebook.com {
+			header_up Host {upstream_hostport}
+			header_up -Origin
+			header_up -Referer
+			header_up -Cookie
+		}
+	}
+
+	handle {
+		root * {$SITE_ROOT:/app/dist}
+
+		# Arquivos com hash no nome podem ficar em cache por 1 ano; o index.html nunca.
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		@brand path /brand/* /favicon-32x32.png
+		header @brand Cache-Control "public, max-age=2592000"
+		@html path / /index.html
+		header @html Cache-Control "no-cache"
+
+		# Garante o MIME correto dos módulos JS mesmo em containers sem /etc/mime.types.
+		@js path *.js
+		header @js Content-Type "text/javascript; charset=utf-8"
+
+		try_files {path} /index.html
+		file_server
+	}
+}

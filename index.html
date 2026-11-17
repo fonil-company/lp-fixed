@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#070B14" />
+    <meta name="description" content="Abasteça sua loja de cosméticos com Fixed. Pedido mínimo de R$ 250,00 e atendimento direto com consultor para lojistas do Piauí e Maranhão." />
+    <title>Fixed | Abasteça sua loja de cosméticos</title>
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!--
+      Meta Pixel no HTML: o PageView dispara antes de baixar o app (melhora o connect rate).
+      O eventID fica em window.__fixedPageViewId para a API de Conversões deduplicar (src/lib/pixel.ts).
+      Se trocar o ID aqui, troque também em src/config/env.ts.
+    -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      window.__fixedPageViewId = 'PageView.' + (window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+      fbq('init', '4367782926817920');
+      fbq('track', 'PageView', {}, { eventID: window.__fixedPageViewId });
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://connect.facebook.net" />
+    <!-- Fontes sem bloquear a renderização: Barlow Condensed (headline) + Inter (textos). -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Inter:wght@400;500;600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link rel="preload" as="image" href="/brand/fixed-logo-graphite.webp" type="image/webp" />
+
+    <!-- Fundo já na primeira pintura, antes do CSS/JS do app. -->
+    <style>
+      html,body{margin:0;min-height:100%;background:#070b14 radial-gradient(120% 70% at 50% 0%,#0b2a5c 0%,#070b14 62%) fixed}
+    </style>
+  </head>
+  <body>
+    <noscript><img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=4367782926817920&ev=PageView&noscript=1"
+    /></noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

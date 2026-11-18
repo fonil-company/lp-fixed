@@ -50,12 +50,12 @@ export const FONIL_CONSULTANTS: Record<'PI' | 'MA', string> = {
 };
 
 /**
- * Umbrella CRM: webhook de entrada da regra "Quizes - MZ3 - V.2" (valida a origem do site,
- * sem token no front). Use "off" para desativar.
+ * Umbrella CRM: webhook de entrada da regra "Quiz - Fixed" (empresa Dec Rio Piranhas, tag LEAD - FIXED).
+ * Valida a origem do site, sem token no front. Use "off" para desativar.
  */
 const umbrella = (import.meta.env.VITE_UMBRELLA_ENDPOINT ?? '').trim();
 export const UMBRELLA_ENDPOINT: string = umbrella === 'off' ? '' : umbrella
-  || 'https://crm-api.umbrellaecosystem.com.br/api/v1/webhooks/in/61d08466-bfeb-4093-9dfd-f24822aa26a6';
+  || 'https://crm-api.umbrellaecosystem.com.br/api/v1/webhooks/in/25221964-5d86-40d6-b86e-9b4b63191bad';
 
 /** ID do Meta Pixel (público). Pode ser sobrescrito via VITE_META_PIXEL_ID. */
 export const META_PIXEL_ID: string = (import.meta.env.VITE_META_PIXEL_ID ?? '').trim() || '4367782926817920';

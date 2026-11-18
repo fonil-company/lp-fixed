@@ -188,7 +188,7 @@ test('Umbrella: POST direto com keepalive, uma vez por conjunto de dados e sem L
     assert.equal(pixelCalls.length, 0);
 
     const { endpoint, init } = calls[1];
-    assert.equal(endpoint, 'https://crm-api.umbrellaecosystem.com.br/api/v1/webhooks/in/61d08466-bfeb-4093-9dfd-f24822aa26a6');
+    assert.equal(endpoint, 'https://crm-api.umbrellaecosystem.com.br/api/v1/webhooks/in/25221964-5d86-40d6-b86e-9b4b63191bad');
     assert.equal(init.method, 'POST');
     assert.equal(init.keepalive, true);
     assert.equal(init.credentials, undefined, 'sem cookies: o webhook não libera credenciais');
